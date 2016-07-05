@@ -1,0 +1,68 @@
+{% extends 'template.html' %}
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script>
+{% endblock %}
+
+{% block content %}
+<hr />
+
+<hr />
+
+<div class="header"> Top companies in ScienceX </div>
+
+{% if companies %}
+	<table border="1">
+	<tr>
+	<td>ID </td> <td>Company</td>	<td>Total citations</td>	<td>Total Publications</td>	<td> keywords</td>	
+	</tr>
+	{% for company in companies %}
+	<tr>
+		<div class = 'sx_hit'>
+		<td> {{forloop.counter}} </td>
+		<td>
+			<a href="company/{{ company.company }}"> {{ company.company }}  
+		</td>
+		<td>{{ company.HIndex }} </td>
+		<td>{{ company.publications }} </td>
+		<td>
+			{% for concept in company.concepts %}
+				<a href="search&keyword={{ concept.concept }}"> {{ concept.concept }}</a> ,&nbsp;
+			{% endfor %}
+		</td>
+		</div>
+	</tr>
+	{% endfor %}
+	</table>
+	
+{% else %}
+	<div class="alert alert-info">No company found </div>
+{% endif %}
+<hr />
+
+<div class="header"> Top keywords in ScienceX </div>
+
+{% if concepts %}
+	<table border="1">
+	<tr>
+	<td>ID </td> <td>keyword</td>	
+	</tr>
+	
+	{% for concept in concepts %}
+	<tr>
+		<div class = 'sx_hit'>
+		<td> {{forloop.counter}} </td>		
+		<td> <a href="search&keyword={{ concept.concept }}"> {{ concept.concept }} </a> </td>
+		</div>
+	</tr>
+	{% endfor %}
+	
+	</table>
+	
+	
+{% else %}
+	<div class="alert alert-info">No concept found </div>
+{% endif %}
+<hr />
+
+
+{% endblock %}

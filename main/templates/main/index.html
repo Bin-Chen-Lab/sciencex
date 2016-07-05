@@ -1,0 +1,26 @@
+
+{% extends 'template.html' %}
+
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/index.js"></script>
+{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		<h2 font-size=50 >ScienceX.io: Search for your next vendors!</h2>
+		<br>
+		Examples:
+		<p>
+		 1: search product name <a href = "/main/search&keyword=anti-CD44">anti-CD44</a>, get top vendors of anti-CD44 <br>
+		 2: search vendor name <a href = "/main/search&keyword=BD Biosciences">BD Biosciences</a>, get publications using BD Biosciences's products <br>
+		 3: search terms <a href = "/main/search&keyword=anti-CD44 AND BD Biosciences">anti-CD44 AND BD Biosciences</a>, get publications of anti-CD44 provided by BD Biosciences <br>	
+		 4: search terms <a href = "/main/search&keyword=cell counting">cell counting</a>, get top vendors of running cell counting <br>	
+
+		</p>
+		  <br>
+		 We mine publications, patents and your social networks to identify the <b>BEST</b> vendor for <b>YOUR</b> experiment. Should you have any questions, please contact: <a href="mailto:info@sciencex.io?Subject=sciencex.io feedback">info@sciencex.io </a>		
+
+	</div>
+
+{% endblock %}

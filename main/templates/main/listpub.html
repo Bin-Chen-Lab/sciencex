@@ -1,0 +1,72 @@
+{% extends 'template.html' %}
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script>
+{% endblock %}
+
+{% block content %}
+
+
+About <b>{{ total_pub }}</b> publications for Query <b>{{ query }}</b> and Vendor <b>{{ company_name }}</b>
+<br>
+{% if author_summary %}
+	Users: 
+	{% for author, num in author_summary %}
+		<a href="listpub?keyword={{ query }}&company={{ company }}&concept={{ concept }}&sortby={{ sortby }}&user={{ author }}&source={{ source }}"> {{ author  | safe }}</a>({{ num }})&nbsp;  
+	{% endfor %}
+	<br>
+{% endif %}
+
+{% if concept_summary %}
+	Diseases: 
+	{% for disease, num in concept_summary %}
+		<a href="listpub?keyword={{ query }}&company={{ company }}&concept={{ disease }}&sortby= {{ sortby }}&user={{ user }}&source={{ source }}"> {{ disease }}</a>({{ num }})&nbsp;  
+	{% endfor %}
+	<br>
+{% endif %}
+
+<a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby=relevance&source={{ source }}">  Sort by relevance{% if sortby == 'relevance' %}*{% endif %}; </a> 
+<a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby=year&source={{ source }}"> Sort by  date{% if sortby == 'year' %}*{% endif %}; </a>
+ <a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby=if_score&source={{ source }}">  Sort by impact{% if sortby == 'if_score' %}*{% endif %} </a>
+<br>
+<a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby={{ sortby }}&source=">  Include all{% if source == '' %}*{% endif %};</a>
+<a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby={{ sortby }}&source=pmc">  Include citations{% if source == 'pmc' %}*{% endif %}; </a>
+<a href="listpub?keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby={{ sortby }}&source=patent">  Include patents{% if source == 'patent' %}*{% endif %} </a> 
+<hr />
+
+{% if publications %}		
+	{% for gscholar in publications %}
+		{% if gscholar.source == "pmc" %}
+		  <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC{{ gscholar.sourceid }}" target="_blank">{{ gscholar.article_title  | safe }} </a> 
+		{% elif gscholar.source == "patent" %}
+		  <a href="https://www.google.com/patents/{{ gscholar.sourceid }}?cl=en&dq= {{ query }}" target="_blank">{{ gscholar.article_title  | safe }} </a> 		
+		{% endif %}
+		
+		<br>
+			<i> {{ gscholar.authors  | safe }}, {{ gscholar.journal }}, {{gscholar.year}} </i>			
+			<br> {% if gscholar.source == "pmc" and  gscholar.context %}  [{{ gscholar.context | safe }}] {% endif %}...{{ gscholar.content | safe }}... 
+			<br>
+			<br>
+	{% endfor %}
+{% else %}
+	<div class="alert alert-info">No publication found  </div>
+{% endif %}
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if publications.has_previous %}
+            <a href="?page={{ publications.previous_page_number }}&keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby={{ sortby }}&source={{ source }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ publications.number }} of {{ publications.paginator.num_pages }}.
+        </span>
+
+        {% if publications.has_next %}
+            <a href="?page={{ publications.next_page_number }}&keyword={{ query }}&company={{ company }}&user={{ user }}&concept={{ concept }}&sortby={{ sortby}}&source={{ source }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

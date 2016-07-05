@@ -1,0 +1,71 @@
+{% extends 'template.html' %}
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script>
+{% endblock %}
+
+{% block content %}
+
+{% if companies %}
+	
+	Top vendors:
+	{% for company in companies %}
+	<a href="listpub?sortby=relevance&keyword={{ query }}&company={{ company.company }}" >{{ company.company_name }};  </a>
+	{% endfor %}
+	<br>	
+	<small>according to about {{ hits  }} result{% if hits  > 1 %}s{% endif %} found.</small>
+{% endif %}
+
+<hr />
+
+{% if companies %}
+
+	{% for company in companies %}
+		<div class = 'sx_hit'>
+		
+		<div class = 'company' align = 'justify'>
+		
+		<b><i> Vendor  {{forloop.counter}}: <a href="{{ company.url }}" target="_blank">{{ company.company_name }} </a> </i></b> 
+		
+		</div>
+		
+		<b> </b>
+			{% for gscholar in company.publication %}
+			{% if gscholar.source == "pmc" %}
+			  <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC{{ gscholar.sourceid }}" target="_blank">{{ gscholar.article_title  | safe }} </a> 
+			{% elif gscholar.source == "patent" %}
+			  <a href="https://www.google.com/patents/{{ gscholar.sourceid }}?cl=en&dq= {{ query }}" target="_blank">{{ gscholar.article_title  | safe }} </a> 		
+			{% endif %}		
+			<br>
+			<i> {{ gscholar.authors  | safe }}, {{ gscholar.journal }}, {{gscholar.year}} </i>			
+			<br> {% if gscholar.source == "pmc" and  gscholar.context %}  [{{ gscholar.context | safe }}] {% endif %}...{{ gscholar.content | safe }}... 
+			<br>
+			<br>
+		{% endfor %}
+		</div>
+		
+		{% if company.author_summary %}
+			Users: 
+			{% for author, num in company.author_summary %}
+				<a href="listpub?keyword={{ query }}&company={{ company.company }}&concept=&sortby=relevance&user={{ author }}&source="> {{ author | safe }}</a>({{ num }})&nbsp;  
+			{% endfor %}
+			<br>
+		{% endif %}
+		
+		{% if company.concept_summary %}		
+		Diseases: 
+		{% for disease, num in company.concept_summary %}
+			<a href="listpub?keyword={{ query }}&company={{ company.company }}&concept={{ disease }}&sortby=relevance&user=&source="> {{ disease }}</a>({{ num }})&nbsp;  
+		{% endfor %}
+		<br>
+		{% endif %}
+				
+		<a href="listpub?sortby=relevance&keyword={{ query }}&company={{ company.company }}">  <b>Check {{ company.hits }} more publications</b> </a>
+		
+		<hr />
+	{% endfor %}
+{% else %}
+	<div class="alert alert-info">No vendor found. Please refine your query. e.g., remove special characters... </div>
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+	
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<meta name=”description” content=”ScienceX.io Identify Vendors' Excellence”>
+
+		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.min.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-theme.min.css" /> -->
+		<!-- <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/flat-ui.css" /> -->
+		{% block css %}{% endblock %}
+		<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/style.css" />
+
+		<title>ScienceX.io: Identify Vendors' Excellence</title>
+		
+		<script type="text/javascript">
+			var id = '{{ id }}';
+		</script>
+
+		<script type="text/javascript" src="{{STATIC_URL}}js/jquery-2.0.3.min.js"> </script>
+		<script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"> </script>
+		<!-- <script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script> -->
+		<script type="text/javascript" src="{{STATIC_URL}}js/dicom_core.js"> </script>
+		{% block js %}{% endblock %}
+	
+	</head>
+
+	<body>
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+       <div class="navbar-header">
+           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="./Index.html">Stadtfestlauf</a>
+       </div>
+       <div class="collapse navbar-collapse" id="navigationbar">
+           <ul class="nav navbar-nav">
+               <li class="active"><a href="./Index.html">Startseite</a></li>
+               <li><a href="./Rueckblick.html">R&uuml;ckblick</a></li>
+               <li><a href="./Wettbewerb.html">Wettbewerb</a></li>    
+               <li><a href="./anmelden.html">Anmelden</a></li>
+               <li><a href="./sponsoren.html">Sponsoren</a></li>
+           </ul>
+   </div><!-- /.container-fluid -->
+</nav>
+		<nav class="navbar navbar-default" role="navigation">
+
+aa       
+
+			<div class="collapse navbar-collapse" id="navigationbar">
+
+				{% if not hide_search %}
+				<form class="navbar-form navbar-left" role="search" method="POST" action="/main/search">
+					{% csrf_token %}
+					<a class="navbar-brand" href="/"><strong> <font size=5> ScienceX.io</font></strong></a>
+					
+					<div class="form-group" style="width: 300px;">
+						 <input type="text" class="form-control" name="dcm_query" id="dcm_query" placeholder="e.g., product, vendor, customer" value="{{ query }}">
+					</div>
+
+					<button type="submit" class="btn btn-primary" id="dcm_search"><span class="glyphicon glyphicon-search"></span> Search</button> 
+
+				</form>
+				{% endif %}
+
+			</div>
+
+		</nav>
+		
+		<div id="content" class="container">
+			
+			{% block content %}{% endblock %}
+			
+		</div>
+	
+	</body>
+
+</html>

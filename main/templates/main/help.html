@@ -1,0 +1,21 @@
+
+{% extends 'template.html' %}
+
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/index.js"></script>
+{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		Case 1: search product name, get all potential vendors and  publications using this product <br>
+		Case 2: search vendor name, get its publications  <br>
+		Case 3: search customer name, get its vendors <br>
+		Case 4: search any terms, get all relevant vendors <br>
+		 <br>
+		  <br>
+		Should you have any questions, please contact: info@sciencex.io
+
+	</div>
+
+{% endblock %}

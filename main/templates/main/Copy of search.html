@@ -1,0 +1,68 @@
+{% extends 'template.html' %}
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script>
+{% endblock %}
+
+{% block content %}
+
+<div class = 'sort' align = 'right'>
+Sorted by  &nbsp;
+<select>
+  <option value="volvo" selected>Publications</option>
+  <option value="saab">Price</option>
+  <option value="vw">Availability</option>
+  <option value="Citations" >Citations</option>
+  <option value="review" >Avg. Customer Review</option>
+  
+</select>
+</div>
+<hr />
+
+{% if hits %}
+<small>Found {{ hits|length }} result{% if hits.count > 1 %}s{% endif %}!</small>
+{% endif %}
+
+{% if companies %}
+	{% for company in companies %}
+		<div class = 'sx_hit'>
+		
+		<div class = 'company' align = 'justify'>
+		
+		{# {% if  company.url != None  %}  #}
+		{#	<br><b> Supplier:</b> {{ company.company }} (<a href="http://{{ company.url }}" target="_blank">Company Website</a> <a href="company/{{ company.company }}" >Company Specialties</a>) #}
+		{#  {% else %} #}
+			<br><b> Supplier:</b> {{ company.company }}  &nbsp;	&nbsp;&nbsp;	&nbsp;<b> Publications:</b> {{ company.hits }} &nbsp;	&nbsp;&nbsp;	&nbsp; <b>Price:</b> {{ company.price }}$ &nbsp; &nbsp;	&nbsp;	&nbsp;<b>Availability: </b>{{ company.availability }}
+		{# {% endif %} #}
+		
+		<button type="button">Add to Cart</button>
+		</div>
+		
+		<b> </b>
+		{% for gscholar in company.gscholar %}
+			<br> {{forloop.counter}}.  {{ gscholar.content_parsed | safe }} (from {{ gscholar.journal}}, 
+			{% if  gscholar.pmcid|length > 1 %}
+			PMC: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/{{ gscholar.pmcid }}">  {{ gscholar.pmcid }} </a>,
+			{% endif %}
+
+					
+			PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ gscholar.pmid }}">  {{ gscholar.pmid }} </a>,
+						
+			{% if  gscholar.citations != None and gscholar.citations != 0 %}	
+				cited by >{{gscholar.citations}}
+			{% endif %}
+			)
+			
+		{% endfor %}
+		</div>
+		
+		<a href="http://www.ncbi.nlm.nih.gov/pubmed/">  <b>More publications</b> </a>
+		<a href="http://www.ncbi.nlm.nih.gov/pubmed/">  <b>Product Info</b> </a>,
+		
+		<hr />
+	{% endfor %}
+{% else %}
+	<div class="alert alert-info">No company found for search query </div>
+{% endif %}
+
+
+{% endblock %}

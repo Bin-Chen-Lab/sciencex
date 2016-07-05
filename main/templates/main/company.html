@@ -1,0 +1,27 @@
+{% extends 'template.html' %}
+{% block js %}
+<script type="text/javascript" src="{{STATIC_URL}}js/holder.js"> </script>
+{% endblock %}
+
+{% block content %}
+<hr />
+
+{% if concepts %}
+<small>Company {{ company }} has {{ concepts|length }} specialties{% if concepts.count > 1 %}s{% endif %}!</small>
+{% endif %}
+
+
+{% if concepts %}
+	{% for concept in concepts %}
+		<div class = 'sx_hit'>
+		
+		<br><b> <a href="../search&keyword={{ concept.concept }}"> {{ concept.concept }} </a></b> 
+		</div>
+		<hr />
+	{% endfor %}
+{% else %}
+	<div class="alert alert-info">No concept found </div>
+{% endif %}
+
+
+{% endblock %}

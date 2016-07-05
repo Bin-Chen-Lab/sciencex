@@ -1,0 +1,16 @@
+HTML, BODY {
+	word-wrap: break-word;
+}
+
+.tab_content {
+	padding-left: 15px;
+}
+
+.dcm_loop {
+	margin-bottom: 15px;
+}
+
+.dcmthumb {
+	width: 150px;
+	height: 150px;
+}
