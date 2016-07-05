@@ -34,10 +34,7 @@ class dbconnector(object):
         return self.db
     
     def getNewCon(self, database="sciencex"):
-        self.db =   MySQLdb.connect(host="54.200.209.54", # your host, usually localhost
-                     user="linkingpilot", # your username
-                      passwd="linkingpilot123", # your password linkingpilot123
-                      db=database)
+        self.db =   MySQLdb.connect()
         return self.db
     
     
